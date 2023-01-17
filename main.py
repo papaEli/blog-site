@@ -11,6 +11,8 @@ from flask_login import UserMixin, login_user, LoginManager, login_required, cur
 from forms import CreatePostForm,Create_User,Login_Form,CommentForm
 from flask_gravatar import Gravatar
 import os
+from dotenv import load_dotenv
+load_dotenv()
 
 def admin_only(f):
     @wraps(f)
@@ -26,7 +28,7 @@ app = Flask(__name__)
 app.app_context().push()
 
 
-app.config['SECRET_KEY'] = str(os.urandom(12))
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY')
 
 ckeditor = CKEditor(app)
 
@@ -86,7 +88,7 @@ db.create_all()
 
 gravatar = Gravatar(
     app,
-    size=100,
+    size=80,
     rating='g',
     default='retro',
     force_default=False,
